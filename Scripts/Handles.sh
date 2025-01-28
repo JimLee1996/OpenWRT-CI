@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PKG_PATH="$GITHUB_WORKSPACE/wrt/package/"
+cd $PKG_PATH
 
 #预置HomeProxy数据
 if [ -d *"homeproxy"* ]; then
@@ -20,6 +21,10 @@ if [ -d *"homeproxy"* ]; then
 	cd .. && rm -rf ./$HP_RULE/
 
 	cd $PKG_PATH && echo "homeproxy date has been updated!"
+	
+	HP_PATH="homeproxy/root/usr/share/rpcd/ucode/luci.homeproxy"
+	sed -i 's|www.google.com|www.google.com/generate_204|g' $HP_PATH
+	cd $PKG_PATH && echo "homeproxy check has been fixed!"
 fi
 
 #修改argon主题字体和颜色
