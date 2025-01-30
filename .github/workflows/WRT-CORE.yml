@@ -246,6 +246,7 @@ jobs:
 
             源码：${{env.WRT_REPO}}
             分支：${{env.WRT_BRANCH}}
+            版本：${{env.WRT_HASH}}
             平台：${{env.WRT_TARGET}}
             设备：${{env.WRT_TYPE}}
             地址：${{env.WRT_IP}}
