@@ -40,6 +40,9 @@ on:
       WRT_TEST:
         required: false
         type: string
+      UPLOAD_ALL:
+        required: false
+        type: string
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -54,6 +57,7 @@ env:
   WRT_BRANCH: ${{inputs.WRT_BRANCH}}
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_TEST: ${{inputs.WRT_TEST}}
+  UPLOAD_ALL: ${{inputs.UPLOAD_ALL}}
 
 jobs:
   core:
@@ -210,6 +214,11 @@ jobs:
           cd ./wrt/ && mkdir ./upload/
 
           cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
+
+          if [[ $UPLOAD_ALL == 'true' ]]; then
+            tar zcvf ./all.tgz ./bin/targets/
+            mv -f ./all.tgz ./upload/
+          fi
 
           if [[ $WRT_TEST != 'true' ]]; then
             KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)
