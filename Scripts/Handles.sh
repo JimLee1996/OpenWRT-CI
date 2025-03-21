@@ -4,8 +4,9 @@ PKG_PATH="$GITHUB_WORKSPACE/wrt/package/"
 cd $PKG_PATH
 
 #修复HomeProxy的google检测
-if [ -d *"homeproxy"* ]; then
-	HP_PATH="homeproxy/root/usr/share/rpcd/ucode/luci.homeproxy"
+HP_DIR=$(find ../feeds/luci/ -maxdepth 3 -type d -wholename "*/applications/luci-app-homeproxy")
+if [ -d "$HP_DIR" ]; then
+	HP_PATH="$HP_DIR/root/usr/share/rpcd/ucode/luci.homeproxy"
 	sed -i 's|www.google.com|www.google.com/generate_204|g' $HP_PATH
 
 	cd $PKG_PATH && echo "homeproxy check has been fixed!"
